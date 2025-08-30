@@ -23,6 +23,8 @@ const ContactUs = () => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submittedData, setSubmittedData] = useState(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -271,7 +273,8 @@ const ContactUs = () => {
       // Simulate form submission
       try {
         await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-        alert('Thank you! Your message has been sent successfully.');
+        setSubmittedData({ ...formData });
+        setShowSuccessModal(true);
         // Reset form
         setFormData({
           name: '',
@@ -487,13 +490,14 @@ const ContactUs = () => {
         </div>
       </motion.section>
 
-      <motion.section 
-        ref={ref2}
-        className="py-10 bg-white dark:bg-[#141517] transition-colors duration-300"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isVisible2 ? "visible" : "hidden"}
-      >
+             <motion.section 
+         id="contact-form"
+         ref={ref2}
+         className="py-10 bg-white dark:bg-[#141517] transition-colors duration-300"
+         variants={containerVariants}
+         initial="hidden"
+         animate={isVisible2 ? "visible" : "hidden"}
+       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <motion.div 
@@ -730,10 +734,172 @@ const ContactUs = () => {
               </form>
             </motion.div>
           </div>
-        </div>
-      </motion.section>
-    </div>
-  );
-};
+                 </div>
+       </motion.section>
+
+       {showSuccessModal && (
+         <motion.div
+           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           exit={{ opacity: 0 }}
+           onClick={() => setShowSuccessModal(false)}
+         >
+                       <motion.div
+              className="bg-white dark:bg-black rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden border border-gray-200 dark:border-gray-800"
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-gradient-to-br from-[#172F34] to-[#0f1f23] p-8 text-center relative overflow-hidden">
+               <motion.div
+                 className="absolute inset-0 bg-white opacity-10"
+                 initial={{ scale: 0 }}
+                 animate={{ scale: 1 }}
+                 transition={{ delay: 0.3, duration: 0.6 }}
+               />
+               
+               <motion.div
+                 className="relative z-10"
+                 initial={{ scale: 0, rotate: -180 }}
+                 animate={{ scale: 1, rotate: 0 }}
+                 transition={{ delay: 0.2, duration: 0.6, type: "spring", damping: 15 }}
+               >
+                 <div className="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center shadow-lg">
+                                       <motion.svg
+                      className="w-12 h-12 text-[#172F34]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ delay: 0.5, duration: 0.8, ease: "easeInOut" }}
+                    >
+                     <motion.path
+                       strokeLinecap="round"
+                       strokeLinejoin="round"
+                       strokeWidth={3}
+                       d="M5 13l4 4L19 7"
+                       initial={{ pathLength: 0 }}
+                       animate={{ pathLength: 1 }}
+                       transition={{ delay: 0.7, duration: 0.6, ease: "easeInOut" }}
+                     />
+                   </motion.svg>
+                 </div>
+               </motion.div>
+
+               {[...Array(6)].map((_, i) => (
+                 <motion.div
+                   key={i}
+                   className="absolute w-2 h-2 bg-white rounded-full opacity-60"
+                   style={{
+                     left: `${20 + i * 15}%`,
+                     top: `${30 + (i % 2) * 40}%`,
+                   }}
+                   initial={{ scale: 0, opacity: 0 }}
+                   animate={{ scale: 1, opacity: 0.6 }}
+                   transition={{ delay: 0.8 + i * 0.1, duration: 0.4 }}
+                 />
+               ))}
+             </div>
+
+             
+             <div className="p-6 text-center">
+               <motion.h3
+                 className="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 0.4, duration: 0.5 }}
+               >
+                 Message Sent Successfully!
+               </motion.h3>
+               
+               <motion.p
+                 className="text-gray-600 dark:text-gray-300 mb-6"
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 0.5, duration: 0.5 }}
+               >
+                 Thank you for reaching out to us. We'll get back to you soon!
+               </motion.p>
+
+               
+                               <motion.div
+                  className="bg-gray-50 dark:bg-[#111111] rounded-lg p-4 mb-6 text-left"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                >
+                                   <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                    <svg className="w-4 h-4 mr-2 text-[#172F34]" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                    Message Details
+                  </h4>
+                                   <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">Name:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{submittedData?.name || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">Email:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{submittedData?.email || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">Phone:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{submittedData?.phone || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">Subject:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{submittedData?.subject || 'N/A'}</span>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                      <div className="flex justify-between items-start">
+                        <span className="text-gray-600 dark:text-gray-400">Message:</span>
+                        <span className="font-medium text-gray-900 dark:text-white text-right max-w-[200px] break-words">
+                          {submittedData?.message || 'N/A'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+               </motion.div>
+
+               
+               <motion.div
+                 className="flex space-x-3"
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 0.7, duration: 0.5 }}
+               >
+                                   <button
+                    onClick={() => {
+                      setShowSuccessModal(false);
+                      setSubmittedData(null);
+                    }}
+                    className="flex-1 bg-[#172F34] hover:bg-[#0f1f23] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 transform hover:scale-105"
+                  >
+                    Close
+                  </button>
+                                   <button
+                    onClick={() => {
+                      setShowSuccessModal(false);
+                      setSubmittedData(null);
+                     
+                      document.querySelector('#contact-form')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="flex-1 bg-gray-200 dark:bg-[#111111] hover:bg-gray-300 dark:hover:bg-[#222222] text-gray-900 dark:text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 transform hover:scale-105"
+                  >
+                    Send Another
+                  </button>
+               </motion.div>
+             </div>
+           </motion.div>
+         </motion.div>
+       )}
+     </div>
+   );
+ };
 
 export default ContactUs;
