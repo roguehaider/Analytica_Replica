@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { ThemeProvider } from './components/ThemeProvider';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Loader from './components/Loader';
 import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 import ServicesPage from './pages/Services';
@@ -17,7 +19,7 @@ const IndustriesPage = () => (
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/src/assets/Analytica.mp4" type="video/mp4" />
+          <source src="/videos/Analytica.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -49,7 +51,7 @@ const SoftwareDevelopmentPage = () => (
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/src/assets/Analytica.mp4" type="video/mp4" />
+          <source src="/videos/Analytica.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -81,7 +83,7 @@ const ResearchPage = () => (
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/src/assets/Analytica.mp4" type="video/mp4" />
+          <source src="/videos/Analytica.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -113,7 +115,7 @@ const PartnersPage = () => (
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/src/assets/Analytica.mp4" type="video/mp4" />
+          <source src="/videos/Analytica.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -145,7 +147,7 @@ const CareersPage = () => (
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/src/assets/Analytica.mp4" type="video/mp4" />
+          <source src="/videos/Analytica.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -167,27 +169,37 @@ const CareersPage = () => (
   </div>
 );
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
   return (
     <ThemeProvider>
-      <Router>
-        <div className="App w-full bg-[#141517] transition-colors duration-300">
-          <Navbar />
-          <main className="w-full">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<AboutUs />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/contact" element={<ContactUs />} />
-              <Route path="/industries" element={<IndustriesPage />} />
-              <Route path="/software-development" element={<SoftwareDevelopmentPage />} />
-              <Route path="/research" element={<ResearchPage />} />
-              <Route path="/partners" element={<PartnersPage />} />
-              <Route path="/careers" element={<CareersPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
+      {isLoading ? (
+        <Loader onLoadingComplete={handleLoadingComplete} />
+      ) : (
+        <Router>
+          <div className="App w-full bg-[#141517] transition-colors duration-300">
+            <Navbar />
+            <main className="w-full">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/industries" element={<IndustriesPage />} />
+                <Route path="/software-development" element={<SoftwareDevelopmentPage />} />
+                <Route path="/research" element={<ResearchPage />} />
+                <Route path="/partners" element={<PartnersPage />} />
+                <Route path="/careers" element={<CareersPage />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      )}
     </ThemeProvider>
   );
 }

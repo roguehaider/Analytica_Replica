@@ -46,10 +46,40 @@ src/
 4. Open [http://localhost:5173](http://localhost:5173)
 
 # Deployment
+
+## Important: Asset Paths
+For production builds, ensure all images are in the `public/` folder and referenced with absolute paths (starting with `/`). Images in `src/assets/` won't be accessible after build.
+
+### Asset Structure
+```
+public/
+├── images/
+│   ├── Services/
+│   │   ├── All Services/
+│   │   ├── Customized Software Services/
+│   │   └── ...
+│   └── flags/
+└── videos/
+```
+
+### Path References
+Update your `servicesData.js` to use public paths:
+```javascript
+// ❌ Won't work in production
+image: "/src/assets/images/Services/All Services/service.webp"
+
+// ✅ Works in production
+image: "/images/Services/All Services/service.webp"
+```
+
+## Build & Deploy
 Build for production:
 ```bash
 npm run build
 ```
+
 Deploy the `dist/` folder to:
-- Netlify
+- **Netlify**: Drag and drop the `dist/` folder
+- **Vercel**: Connect your repository for automatic deployments
+- **GitHub Pages**: Use GitHub Actions for automated deployment
 

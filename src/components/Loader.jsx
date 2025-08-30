@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import analyticaLogo from '../assets/Analytica-Logo_White_Version_V1.webp';
 
 const Loader = ({ onLoadingComplete }) => {
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -38,7 +37,7 @@ const Loader = ({ onLoadingComplete }) => {
       <div className="text-center flex flex-col items-center">
         <div className="mb-8">
           <img 
-            src={analyticaLogo} 
+            src="/Analytica-Logo_White_Version_V1.webp" 
             alt="ANALYTICA" 
             className="h-16 w-auto mx-auto animate-pulse"
           />

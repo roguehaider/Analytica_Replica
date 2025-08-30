@@ -99,7 +99,7 @@ const Navbar = () => {
             >
               <Link to="/" className="flex items-center hover:scale-105 transition-transform duration-200">
                 <img 
-                  src="/src/assets/Analytica-Logo_White_Version_V1.webp" 
+                  src="/Analytica-Logo_White_Version_V1.webp" 
                   alt="Analytica" 
                   className="h-8 w-auto"
                 />

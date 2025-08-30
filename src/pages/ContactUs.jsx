@@ -64,7 +64,7 @@ const ContactUs = () => {
     {
       id: 1,
       name: "Lahore, Pakistan",
-      flag: "/src/assets/images/flags/pakistan.webp",
+      flag: "/images/flags/pakistan.webp",
       position: "top-[45%] left-[75%]",
       content: "Lahore, Pakistan",
       sliderContent: "Lahore, Pakistan"
@@ -72,7 +72,7 @@ const ContactUs = () => {
     {
       id: 2,
       name: "Dubai, UAE",
-      flag: "/src/assets/images/flags/united-arab-emirates.webp",
+      flag: "/images/flags/united-arab-emirates.webp",
       position: "top-[42%] left-[68%]",
       content: (
         <>
@@ -90,7 +90,7 @@ const ContactUs = () => {
     {
       id: 3,
       name: "Doha, Qatar",
-      flag: "/src/assets/images/flags/qatar.webp",
+      flag: "/images/flags/qatar.webp",
       position: "top-[43%] left-[70%]",
       content: "Doha, Qatar",
       sliderContent: "Doha, Qatar"
@@ -98,7 +98,7 @@ const ContactUs = () => {
     {
       id: 4,
       name: "Eskilstuna, Sweden",
-      flag: "/src/assets/images/flags/sweden.webp",
+      flag: "/images/flags/sweden.webp",
       position: "top-[25%] left-[52%]",
       content: "Eskilstuna, Sweden",
       sliderContent: "Eskilstuna, Sweden"
@@ -106,7 +106,7 @@ const ContactUs = () => {
     {
       id: 5,
       name: "California, USA",
-      flag: "/src/assets/images/flags/united-states.webp",
+      flag: "/images/flags/united-states.webp",
       position: "top-[35%] left-[15%]",
       content: "California, USA",
       sliderContent: "California, USA"
@@ -168,7 +168,7 @@ const ContactUs = () => {
         heading="CONTACT US"
         subtitle="GET IN TOUCH WITH ANALYTICA"
         bodyText="Ready to transform your business with cutting-edge technology solutions? Let's discuss how we can help you achieve your goals."
-        videoSource="/src/assets/About-US.mp4"
+        videoSource="/videos/About-US.mp4"
       />
 
       <motion.section 
@@ -209,7 +209,7 @@ const ContactUs = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <motion.img
-              src="/src/assets/images/maps-image-contact-us-page.webp"
+              src="/images/maps-image-contact-us-page.webp"
               alt="World Map"
               className="w-full h-auto"
               whileHover={{ scale: 1.02 }}
@@ -507,7 +507,7 @@ const ContactUs = () => {
                   </label>
                   <div className="flex items-center space-x-2 ml-auto">
                     <img 
-                      src="/src/assets/images/OIP.webp" 
+                      src="/images/OIP.webp" 
                       alt="reCAPTCHA" 
                       className="w-10 h-10"
                     />

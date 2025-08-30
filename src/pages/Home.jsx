@@ -11,31 +11,31 @@ const Home = () => {
       id: 1,
       title: "AI-Powered Solutions",
       description: "Empowering Businesses with Intelligent Technologies",
-      image: "/src/assets/images/home-01.webp"
+      image: "/images/home-01.webp"
     },
     {
       id: 2,
       title: "Industry Experts",
       description: "Deep Insights and Solutions Across Industries.",
-      image: "/src/assets/images/home-03.webp"
+      image: "/images/home-03.webp"
     },
     {
       id: 3,
       title: "Customized Solutions",
       description: "Tailored Software for your Unique Needs",
-      image: "/src/assets/images/home-04.webp"
+      image: "/images/home-04.webp"
     },
     {
       id: 4,
       title: "AR/VR",
       description: "Immersive Experiences Redefining Reality",
-      image: "/src/assets/images/home-02.webp"
+      image: "/images/home-02.webp"
     },
     {
       id: 5,
       title: "Computer Vision",
       description: "Enhancing Insights through Visual Intelligence",
-      image: "/src/assets/images/home-05.webp"
+      image: "/images/home-05.webp"
     }
   ];
   const containerVariants = {

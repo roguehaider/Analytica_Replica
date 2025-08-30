@@ -61,7 +61,7 @@ const AboutUs = () => {
         heading="ABOUT US"
         subtitle="Get a head start with emerging Tools and Technologies to Help Evolve your Business Development"
         bodyText="Analytica delivers comprehensive solutions that blend effective design with the latest technologies, including web, mobile, VR, AI, and blockchain."
-        videoSource="/src/assets/About-US.mp4"
+        videoSource="/videos/About-US.mp4"
       />
       {}
       <motion.section 
@@ -176,7 +176,7 @@ const AboutUs = () => {
                 transition={{ duration: 0.3 }}
               >
                 <img 
-                  src="/src/assets/Analytica-Logo_V2_aboutus.webp" 
+                  src="/Analytica-Logo_V2_aboutus.webp" 
                   alt="Analytica Logo" 
                   className="w-48 h-auto mb-4"
                 />
