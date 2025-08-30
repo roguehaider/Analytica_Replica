@@ -365,15 +365,15 @@ const ContactUs = () => {
         initial="hidden"
         animate={isVisible2 ? "visible" : "hidden"}
       >
-        <div className="max-w-[80%] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <motion.div 
               className="space-y-5"
               custom={0}
               variants={itemVariants}
             >
               <motion.h2 
-                className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white w-3/6"
+                className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white w-full lg:w-3/4"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -432,13 +432,13 @@ const ContactUs = () => {
             </motion.div>
 
             <motion.div 
-              className="bg-white dark:bg-[#1a1a1a] p-8 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 transition-colors duration-300"
+              className="bg-white dark:bg-[#1a1a1a] p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 transition-colors duration-300"
               custom={1}
               variants={itemVariants}
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <form className="space-y-6">
+              <form className="space-y-4 sm:space-y-6">
                 {[
                   { id: "name", label: "Name*", type: "text" },
                   { id: "email", label: "Email*", type: "email" },
@@ -460,7 +460,7 @@ const ContactUs = () => {
                       id={field.id}
                       name={field.id}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E9BA6] focus:border-transparent bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E9BA6] focus:border-transparent bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300 text-sm sm:text-base"
                       whileFocus={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     />
@@ -479,17 +479,17 @@ const ContactUs = () => {
                   <motion.textarea
                     id="message"
                     name="message"
-                    rows="6"
+                    rows="4"
                     placeholder="Write your message"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E9BA6] focus:border-transparent bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors duration-300"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E9BA6] focus:border-transparent bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors duration-300 text-sm sm:text-base"
                     whileFocus={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   ></motion.textarea>
                 </motion.div>
 
                 <motion.div 
-                  className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-[#2a2a2a] w-1/3 transition-colors duration-300"
+                  className="flex items-center justify-between p-4 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-[#2a2a2a] w-full transition-colors duration-300"
                   custom={5}
                   variants={formFieldVariants}
                   initial="hidden"
@@ -497,19 +497,21 @@ const ContactUs = () => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <input
-                    type="checkbox"
-                    id="recaptcha"
-                    className="w-4 h-4 text-[#3E9BA6] border-gray-300 dark:border-gray-600 rounded focus:ring-[#3E9BA6] focus:ring-2 bg-white dark:bg-[#1a1a1a] checked:bg-[#3E9BA6] checked:border-[#3E9BA6]"
-                  />
-                  <label htmlFor="recaptcha" className="text-sm text-gray-700 dark:text-gray-300">
-                    I'm not a robot
-                  </label>
-                  <div className="flex items-center space-x-2 ml-auto">
+                  <div className="flex items-center space-x-3 flex-shrink-0">
+                    <input
+                      type="checkbox"
+                      id="recaptcha"
+                      className="w-4 h-4 text-[#3E9BA6] border-gray-300 dark:border-gray-600 rounded focus:ring-[#3E9BA6] focus:ring-2 bg-white dark:bg-[#1a1a1a] checked:bg-[#3E9BA6] checked:border-[#3E9BA6]"
+                    />
+                    <label htmlFor="recaptcha" className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                      I'm not a robot
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2 flex-shrink-0">
                     <img 
                       src="/images/OIP.webp" 
                       alt="reCAPTCHA" 
-                      className="w-10 h-10"
+                      className="w-8 h-8 sm:w-10 sm:h-10"
                     />
                   </div>
                 </motion.div>
@@ -526,7 +528,7 @@ const ContactUs = () => {
 
                 <motion.button
                   type="submit"
-                  className="send-button py-2 px-11 rounded-full uppercase tracking-wide"
+                  className="send-button py-2 px-6 sm:px-11 rounded-full uppercase tracking-wide text-sm sm:text-base w-full sm:w-auto"
                   custom={7}
                   variants={formFieldVariants}
                   initial="hidden"
