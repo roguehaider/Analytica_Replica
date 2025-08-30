@@ -195,24 +195,38 @@ const Navbar = () => {
         </div>
       </motion.nav>
       {}
-      {isOpen && (
-        <div className="fixed inset-0 z-50">
-          {}
-          <div 
-            className="absolute inset-0 bg-black bg-opacity-50"
-            onClick={() => setIsOpen(false)}
-          />
-          {}
-          <div 
-            className="absolute right-0 top-0 h-full w-[450px] bg-gray-900 dark:bg-[#141517] bg-opacity-90 shadow-2xl"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="fixed inset-0 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
             {}
-            <div className="flex items-center justify-end p-6">
+            <motion.div 
+              className="absolute inset-0 bg-black bg-opacity-50"
+              onClick={() => setIsOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            {}
+            <motion.div 
+              className="absolute right-0 top-0 h-full w-full sm:w-[450px] bg-gray-900 dark:bg-[#141517] bg-opacity-90 shadow-2xl"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            >
+            {}
+            <div className="flex items-center justify-end p-4 sm:p-6">
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:text-gray-300 transition-colors duration-200"
+                className="text-white hover:text-gray-300 transition-colors duration-200 p-2"
               >
-                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -224,7 +238,7 @@ const Navbar = () => {
                   <div key={item.name}>
                     <Link
                       to={item.to}
-                      className={`block px-6 py-3 text-white hover:bg-[#3E9BA6] hover:bg-opacity-50 hover:pl-8 transition-all duration-300 ease-in-out text-[25px] font-semibold ${
+                      className={`block px-6 py-4 text-white hover:bg-[#3E9BA6] hover:bg-opacity-50 hover:pl-8 transition-all duration-300 ease-in-out text-lg sm:text-xl md:text-2xl font-semibold ${
                         isActive(item.to) ? 'bg-[#3E9BA6] bg-opacity-50 text-[#3E9BA6]' : ''
                       }`}
                       onClick={() => setIsOpen(false)}
@@ -235,9 +249,10 @@ const Navbar = () => {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 };
