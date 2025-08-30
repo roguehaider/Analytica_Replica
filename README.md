@@ -29,7 +29,7 @@ src/
 # Getting Started
 1. Clone the repo  
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/roguehaider/Analytica_Replica.git
    cd Analytica_Replica
    ```
 
