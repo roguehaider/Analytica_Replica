@@ -9,6 +9,20 @@ const ContactUs = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const autoPlayRef = useRef(null);
+  
+  // Form validation state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+    recaptcha: false
+  });
+  
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -161,6 +175,121 @@ const ContactUs = () => {
     "Customized Solutions",
     "Feedback"
   ];
+
+  // Validation functions
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return 'Name is required';
+        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        return '';
+      case 'email':
+        if (!value.trim()) return 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Please enter a valid email address';
+        return '';
+      case 'phone':
+        if (!value.trim()) return 'Phone number is required';
+        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+        if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''))) return 'Please enter a valid phone number';
+        return '';
+      case 'subject':
+        if (!value.trim()) return 'Subject is required';
+        if (value.trim().length < 5) return 'Subject must be at least 5 characters';
+        return '';
+      case 'message':
+        if (!value.trim()) return 'Message is required';
+        if (value.trim().length < 10) return 'Message must be at least 10 characters';
+        return '';
+      case 'recaptcha':
+        if (!value) return 'Please verify that you are not a robot';
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach(field => {
+      const error = validateField(field, formData[field]);
+      if (error) newErrors[field] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: fieldValue
+    }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value, type, checked } = e.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
+    
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+
+    const error = validateField(name, fieldValue);
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Mark all fields as touched
+    setTouched({
+      name: true,
+      email: true,
+      phone: true,
+      subject: true,
+      message: true,
+      recaptcha: true
+    });
+
+    if (validateForm()) {
+      // Simulate form submission
+      try {
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
+        alert('Thank you! Your message has been sent successfully.');
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+          recaptcha: false
+        });
+        setErrors({});
+        setTouched({});
+      } catch (error) {
+        alert('Sorry, there was an error sending your message. Please try again.');
+      }
+    }
+    
+    setIsSubmitting(false);
+  };
 
   return (
     <div className="min-h-screen">
@@ -438,7 +567,7 @@ const ContactUs = () => {
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <form className="space-y-4 sm:space-y-6">
+              <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
                 {[
                   { id: "name", label: "Name*", type: "text" },
                   { id: "email", label: "Email*", type: "email" },
@@ -459,11 +588,27 @@ const ContactUs = () => {
                       type={field.type}
                       id={field.id}
                       name={field.id}
-                      required
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E9BA6] focus:border-transparent bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300 text-sm sm:text-base"
+                      value={formData[field.id]}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-md focus:outline-none focus:ring-2 transition-colors duration-300 text-sm sm:text-base bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
+                        errors[field.id] && touched[field.id]
+                          ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                          : 'border-gray-300 dark:border-gray-600 focus:ring-[#3E9BA6] focus:border-transparent'
+                      }`}
                       whileFocus={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     />
+                    {errors[field.id] && touched[field.id] && (
+                      <motion.p 
+                        className="text-red-500 text-xs mt-1"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {errors[field.id]}
+                      </motion.p>
+                    )}
                   </motion.div>
                 ))}
 
@@ -481,15 +626,35 @@ const ContactUs = () => {
                     name="message"
                     rows="4"
                     placeholder="Write your message"
-                    required
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E9BA6] focus:border-transparent bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors duration-300 text-sm sm:text-base"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-md focus:outline-none focus:ring-2 transition-colors duration-300 text-sm sm:text-base bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none ${
+                      errors.message && touched.message
+                        ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-gray-600 focus:ring-[#3E9BA6] focus:border-transparent'
+                    }`}
                     whileFocus={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   ></motion.textarea>
+                  {errors.message && touched.message && (
+                    <motion.p 
+                      className="text-red-500 text-xs mt-1"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {errors.message}
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 <motion.div 
-                  className="flex items-center justify-between p-4 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-[#2a2a2a] w-full transition-colors duration-300"
+                  className={`flex items-center justify-between p-4 border rounded-md bg-gray-50 dark:bg-[#2a2a2a] w-full transition-colors duration-300 ${
+                    errors.recaptcha && touched.recaptcha
+                      ? 'border-red-500'
+                      : 'border-gray-300 dark:border-gray-600'
+                  }`}
                   custom={5}
                   variants={formFieldVariants}
                   initial="hidden"
@@ -501,6 +666,10 @@ const ContactUs = () => {
                     <input
                       type="checkbox"
                       id="recaptcha"
+                      name="recaptcha"
+                      checked={formData.recaptcha}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
                       className="w-4 h-4 text-[#3E9BA6] border-gray-300 dark:border-gray-600 rounded focus:ring-[#3E9BA6] focus:ring-2 bg-white dark:bg-[#1a1a1a] checked:bg-[#3E9BA6] checked:border-[#3E9BA6]"
                     />
                     <label htmlFor="recaptcha" className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
@@ -515,6 +684,16 @@ const ContactUs = () => {
                     />
                   </div>
                 </motion.div>
+                {errors.recaptcha && touched.recaptcha && (
+                  <motion.p 
+                    className="text-red-500 text-xs mt-1"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {errors.recaptcha}
+                  </motion.p>
+                )}
 
                 <motion.p 
                   className="text-xs text-gray-500 dark:text-gray-400"
@@ -528,15 +707,25 @@ const ContactUs = () => {
 
                 <motion.button
                   type="submit"
-                  className="send-button py-2 px-6 sm:px-11 rounded-full uppercase tracking-wide text-sm sm:text-base w-full sm:w-auto"
+                  disabled={isSubmitting}
+                  className={`send-button py-2 px-6 sm:px-11 rounded-full uppercase tracking-wide text-sm sm:text-base w-full sm:w-auto transition-all duration-300 ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   custom={7}
                   variants={formFieldVariants}
                   initial="hidden"
                   animate={isVisible2 ? "visible" : "hidden"}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={!isSubmitting ? { scale: 1.05 } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.95 } : {}}
                 >
-                  Send
+                  {isSubmitting ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </div>
+                  ) : (
+                    'Send'
+                  )}
                 </motion.button>
               </form>
             </motion.div>
