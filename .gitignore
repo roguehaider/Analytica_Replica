@@ -133,3 +133,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 config.bat
+
+# local env files
+.env*.local
